@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.mapper.RegisterMapper">
+
+<!--    <insert id="addRegister" keyProperty="id" useGeneratedKeys="true">-->
+<!--        insert into register (id, case_number, real_name, gender, card_number, birthday, age, age_type, home_address, visit_date, noon,deptment_id,employee_id, regist_level_id, settle_category_id, is_book, regist_method, visit_state, regist_money)-->
+<!--        values (#{id},#{case_number},#{real_name},#{gender},#{card_number},#{birthday},#{age},#{age_type},#{home_address},-->
+<!--                #{visit_date},#{noon},#{deptment_id},#{employee_id},#{regist_level_id},#{settle_category_id},#{is_book},-->
+<!--                #{regist_method},#{visit_state},#{regist_money})-->
+<!--    </insert>-->
+
+    <insert id="addRegister">
+        insert into register
+        <trim prefix="'(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="case_number != null">
+                case_number,
+            </if>
+            <if test="real_name != null">
+                real_name,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="card_number != null">
+                card_number,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="age_type != null">
+                age_type,
+            </if>
+            <if test="home_address != null">
+                home_address,
+            </if>
+            <if test="settle_category_id != null">
+                settle_category_id,
+            </if>
+            <if test="visit_date != null">
+                visit_date,
+            </if>
+            <if test="noon != null">
+                noon,
+            </if>
+            <if test="deptment_id != null">
+                deptment_id,
+            </if>
+            <if test="employee_id != null">
+                employee_id,
+            </if>
+            <if test="regist_level_id != null">
+                regist_level_id,
+            </if>
+            <if test="physician != null">
+                physician,
+            </if>
+            <if test="totalNumber != null">
+                totalNumber,
+            </if>
+            <if test="usedNumber != null">
+                usedNumber,
+            </if>
+            <if test="is_book != null">
+                is_book,
+            </if>
+            <if test="regist_money != null">
+                regist_money,
+            </if>
+            <if test="regist_method != null">
+                regist_method,
+            </if>
+            <if test="visit_state != null">
+                visit_state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType = INTEGER},
+            </if>
+            <if test="case_number != null">
+                #{case_number,jdbcType = VARCHAR},
+            </if>
+            <if test="real_name != null">
+                #{real_name,jdbcType = VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType = VARCHAR},
+            </if>
+            <if test="card_number != null">
+                #{card_number,jdbcType = VARCHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType = VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType = VARCHAR},
+            </if>
+            <if test="age_type != null">
+                #{age_type,jdbcType = VARCHAR},
+            </if>
+            <if test="home_address != null">
+                #{home_address,jdbcType = VARCHAR},
+            </if>
+            <if test="settle_category_id != null">
+                #{settle_category_id,jdbcType = VARCHAR},
+            </if>
+            <if test="visit_date != null">
+                #{visit_date,jdbcType = VARCHAR},
+            </if>
+            <if test="noon != null">
+                #{noon,jdbcType = VARCHAR},
+            </if>
+            <if test="deptment_id != null">
+                #{deptment_id,jdbcType = VARCHAR},
+            </if>
+            <if test="employee_id != null">
+                #{employee_id,jdbcType = VARCHAR},
+            </if>
+            <if test="regist_level_id != null">
+                #{regist_level_id,jdbcType = VARCHAR},
+            </if>
+            <if test="physician != null">
+                #{physician,jdbcType = VARCHAR},
+            </if>
+            <if test="totalNumber != null">
+                #{totalNumber,jdbcType = VARCHAR},
+            </if>
+            <if test="usedNumber != null">
+                #{usedNumber,jdbcType = VARCHAR},
+            </if>
+            <if test="is_book != null">
+                #{is_book,jdbcType = VARCHAR},
+            </if>
+            <if test="regist_money != null">
+                #{regist_money,jdbcType = VARCHAR},
+            </if>
+            <if test="regist_method != null">
+                #{regist_method,jdbcType = VARCHAR},
+            </if>
+            <if test="visit_state != null">
+                #{visit_state,jdbcType = VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getFinishPatientCount" resultType="java.lang.Integer">
+        select count(*) from register
+        where employee_id = #{employee_id}
+        and visit_state = 3
+    </select>
+
+</mapper>
