@@ -150,10 +150,43 @@
         </trim>
     </insert>
 
+<!--    取得诊毕患者数量-->
     <select id="getFinishPatientCount" resultType="java.lang.Integer">
         select count(*) from register
         where employee_id = #{employee_id}
         and visit_state = 3
+  <!--  and date(visit_date) = date(now())-->
+    </select>
+<!--    取得等待患者数量-->
+    <select id="getWaitPatientCount" resultType="java.lang.Integer">
+        select count(*) from register
+        where visit_state = 1
+        <if test="case_number != null and case_number != ''">
+            and case_number = #{case_number}
+        </if>
+        <if test="real_name != null and real_name != ''">
+            and real_name = #{real_name}
+        </if>
+        <if test="employee_id != null and employee_id != ''">
+            and employee_id = #{employee_id}
+        </if>
+<!--  and date(visit_date) = date(now())-->
+    </select>
+<!--    取得等待患者信息-->
+    <select id="getWaitPatientMsg" resultType="java.util.Map">
+        select * from register
+        where visit_state = 1
+          <if test="employee_id != null and employee_id != ''">
+              and employee_id = #{employee_id}
+          </if>
+        <if test="case_number != null and case_number != ''">
+            and case_number = #{case_number}
+        </if>
+        <if test="real_name != null and real_name != ''">
+            and real_name = #{real_name}
+        </if>
+        order by visit_date
+        limit ${(nowPageNumber-1)*pageSize},#{pageSize}
     </select>
 
 </mapper>
