@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.mapper.MedicalTechnologyMapper">
+    <select id="getCheck" resultType="java.util.Map">
+        select * from medical_technology
+        where tech_type = '检查'
+        <if test="tech_code != null and tech_code != ''">
+            and tech_code = #{tech_code}
+        </if>
+        <if test="tech_name !=null and tech_name != ''">
+            and tech_name = #{tech_name}
+        </if>
+        limit 0,10
+    </select>
+
+    <insert id="insertCheckRequest">
+        insert into
+    </insert>
+</mapper>

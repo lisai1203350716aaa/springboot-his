@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.mapper.MedicalRecordMapper">
+    <insert id="addHomeMedicalRecord">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+        insert into medical_record (
+            register_id,readme,present,present_treat,history,allergy,physique,proposal,careful,diagnosis,cure
+        ) values (#{register_id},#{readme},#{present},#{present_treat},#{history},#{allergy},#{physique},#{proposal},#{careful},#{diagnosis},#{cure})
+    </insert>
+    <insert id="addMedicalRecordDisease">
+        insert into medical_record_disease (medical_record_id,disease_id) values (#{medical_record_id},#{disease_id})
+    </insert>
+</mapper>
