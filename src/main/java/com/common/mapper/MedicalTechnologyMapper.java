@@ -10,6 +10,5 @@ import java.util.Map;
 @Mapper
 public interface MedicalTechnologyMapper {
     List<Map<String,Object>> getCheck(Map<String,Object> map);
-
-
+    List<Map<String,Object>> searchDisponsal(Map<String,Object> map);
 }

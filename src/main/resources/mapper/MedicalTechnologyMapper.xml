@@ -14,7 +14,15 @@
         limit 0,10
     </select>
 
-    <insert id="insertCheckRequest">
-        insert into
-    </insert>
+    <select id="searchDisponsal" resultType="java.util.Map">
+        select * from medical_technology
+        where tech_type = '检验'
+        <if test="tech_code != null and tech_code != ''">
+            and tech_code = #{tech_code}
+        </if>
+        <if test="tech_name !=null and tech_name != ''">
+            and tech_name = #{tech_name}
+        </if>
+        limit 0,10
+    </select>
 </mapper>

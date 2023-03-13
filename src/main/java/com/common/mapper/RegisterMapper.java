@@ -3,6 +3,7 @@ package com.common.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,4 +22,6 @@ public interface RegisterMapper {
                                                 @Param("real_name") String real_name,
                                                 @Param("nowPageNumber") Integer nowPageNumber,
                                                 @Param("pageSize") Integer pageSize);
+
+    List<Map<String,Object>> searchRegister(Map<Object, Object> map);
 }

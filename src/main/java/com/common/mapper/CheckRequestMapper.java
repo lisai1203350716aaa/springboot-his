@@ -4,6 +4,9 @@ import com.common.bean.RestBean;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 @Mapper
 public interface CheckRequestMapper {
     void insertCheckRequest(String register_id,
@@ -11,4 +14,6 @@ public interface CheckRequestMapper {
                                 String check_info,
                                 String check_position,
                                 String check_remark);
+
+    List<Map<Object, Object>> getCheckRequestByregisterId();
 }

@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.common.mapper.CheckRequestMapper">
-    <insert id="insertCheckRequest">
-        insert into check_request (register_id,
-                                   medical_technology_id,
-                                   check_info, check_position,
-                                   check_remark, creation_time,
-                                   check_state)
+<mapper namespace="com.common.mapper.DisponsalRequestMapper">
+    <insert id="insertDisponsal">
+        insert into disposal_request (register_id,
+                                      medical_technology_id,
+                                      disposal_info, disposal_position,
+                                      disposal_remark, creation_time,
+                                      disposal_state)
         values (#{register_id},
                 #{medical_technology_id},
-                #{check_info},
-                #{check_position},
-                #{check_remark}, now(), '已开立');
+                #{disposal_info},
+                #{disposal_position},
+                #{disposal_remark}, now(), '已开立');
+
     </insert>
 
-    <select id="getCheckRequestByregisterId" resultType="java.util.Map">
+    <select id="getDisponsalRequestByregisterId" resultType="java.util.Map">
         select t.tech_name item_name,t.tech_price item_price,t.tech_type item_type,t.tech_format item_format,r.creation_time item_create_time
-        from check_request r, medical_technology t
+        from disposal_request r, medical_technology t
         where r.medical_technology_id = t.id
         <if test="check_state != null and check_state != ''">
             and r.check_state = #{check_state}

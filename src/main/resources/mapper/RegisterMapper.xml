@@ -188,5 +188,16 @@
         order by visit_date
         limit ${(nowPageNumber-1)*pageSize},#{pageSize}
     </select>
+    
+    <select id="searchRegister" resultType="java.util.Map">
+        select * from register
+        where 1 =1
+        <if test="case_number !=null and case_number != ''">
+            and case_number = #{case_number}
+        </if>
+        <if test="real_name != null and real_name != ''">
+            and real_name = #{real_name}
+        </if>
+    </select>
 
 </mapper>
