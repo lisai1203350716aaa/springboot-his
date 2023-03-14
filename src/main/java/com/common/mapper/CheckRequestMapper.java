@@ -15,5 +15,5 @@ public interface CheckRequestMapper {
                                 String check_position,
                                 String check_remark);
 
-    List<Map<Object, Object>> getCheckRequestByregisterId();
+    List<Map<Object, Object>> getCheckRequestByregisterId(Map<Object, Object> map);
 }

@@ -9,5 +9,5 @@ import java.util.Map;
 public interface DisponsalRequestMapper {
     void insertDisponsal(String register_id, String medical_technology_id, String disposal_info, String disposal_position, String disposal_remark);
 
-    List<Map<Object, Object>> getDisponsalRequestByregisterId();
+    List<Map<Object, Object>> getDisponsalRequestByregisterId(Map<Object,Object> map);
 }
