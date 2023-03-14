@@ -15,9 +15,13 @@
                 #{disposal_remark}, now(), '已开立');
 
     </insert>
+    <update id="updateStatesById">
+        update disposal_request set disposal_state = '已繳費'
+        where id = #{id}
+    </update>
 
     <select id="getDisponsalRequestByregisterId" resultType="java.util.Map">
-        select t.tech_name item_name,t.tech_price item_price,t.tech_type item_type,t.tech_format item_format,r.creation_time item_create_time
+        select r.id id, t.tech_name item_name,t.tech_price item_price,'检验' item_type,t.tech_format item_format,r.creation_time item_create_time
         from disposal_request r, medical_technology t
         where r.medical_technology_id = t.id
         <if test="check_state != null and check_state != ''">

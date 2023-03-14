@@ -16,4 +16,6 @@ public interface CheckRequestMapper {
                                 String check_remark);
 
     List<Map<Object, Object>> getCheckRequestByregisterId(Map<Object, Object> map);
+
+    int updateStatesById(Object id);
 }
