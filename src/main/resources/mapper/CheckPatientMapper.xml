@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.mapper.CheckPatientMapper">
+
+
+    <select id="getCheckPatient" resultType="java.util.Map">
+        select t.tech_code ,t.tech_name, t.tech_format,t.tech_price,t.tech_type,t.price_type
+        from check_request r, medical_technology t
+        where r.medical_technology_id = t.id
+            and r.check_state = '已缴费'
+            and r.register_id = #{register_id}
+    </select>
+</mapper>

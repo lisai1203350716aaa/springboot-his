@@ -15,7 +15,7 @@
                 #{check_remark}, now(), '已开立');
     </insert>
     <update id="updateStatesById">
-        update check_request set check_state = '已繳費'
+        update check_request set check_state = '已缴费'
         where id = #{id}
     </update>
 
@@ -30,4 +30,45 @@
             and r.register_id = #{register_id}
         </if>
     </select>
+
+    <select id="getWaitCheckCount" resultType="java.lang.Integer">
+        select count(id)
+        from register r,(select register_id,check_state from check_request group by register_id, check_state having check_state = '已缴费') c
+        where r.id = c.register_id
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+    </select>
+    <select id="getFinishCheckCount" resultType="java.lang.Integer">
+        select count(id)
+        from register r,(select register_id,check_state from check_request group by register_id, check_state having check_state = '已缴费') c
+        where r.id = c.register_id
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+            and visit_state = 3
+    </select>
+<!--    获取等待检查信息（分页查询）-->
+    <select id="getWaitCheckMsg" resultType="java.util.Map">
+        select r.*
+        from register r ,(select register_id,check_state from check_request group by register_id, check_state having check_state = '已缴费') c
+        where r.id = c.register_id
+        and date(visit_date) = date(now())
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+        ORDER BY r.visit_date
+        LIMIT ${(nowPageNumber-1) * pageSize} ,#{pageSize}
+</select>
+
+
 </mapper>

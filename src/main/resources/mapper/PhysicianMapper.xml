@@ -11,5 +11,4 @@
           and e.regist_level_id = #{registLevelId}
           and e.scheduling_id = s.id
     </select>
-
 </mapper>

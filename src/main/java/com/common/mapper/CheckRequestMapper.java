@@ -18,4 +18,14 @@ public interface CheckRequestMapper {
     List<Map<Object, Object>> getCheckRequestByregisterId(Map<Object, Object> map);
 
     int updateStatesById(Object id);
+
+    List<Map<String,Object>> getWaitCheckMsg(
+                                             @Param("case_number") String case_number,
+                                             @Param("real_name") String real_name,
+                                             @Param("nowPageNumber") Integer nowPageNumber,
+                                             @Param("pageSize") Integer pageSize);
+    Integer getFinishCheckCount();
+
+    Integer getWaitCheckCount();
+
 }

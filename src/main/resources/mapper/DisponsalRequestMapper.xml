@@ -16,7 +16,7 @@
 
     </insert>
     <update id="updateStatesById">
-        update disposal_request set disposal_state = '已繳費'
+        update disposal_request set disposal_state = '已缴费'
         where id = #{id}
     </update>
 
@@ -25,10 +25,54 @@
         from disposal_request r, medical_technology t
         where r.medical_technology_id = t.id
         <if test="check_state != null and check_state != ''">
-            and r.check_state = #{check_state}
+            and r.check_state = '已开立'
         </if>
         <if test="register_id != null and register_id != ''">
             and r.register_id = #{register_id}
         </if>
     </select>
+
+
+    <!--    获得检验完成人数数量-->
+    <select id="getFinishDisposalCount" resultType="java.lang.Integer">
+        select count(id)
+        from register r,(select register_id,disposal_state from disposal_request group by register_id, disposal_state having disposal_state = '已缴费') c
+        where r.id = c.register_id
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+        and visit_state = 3
+    </select>
+
+<!--    获取等待人数量-->
+    <select id="getWaitDisposalCount" resultType="java.lang.Integer">
+        select count(id)
+        from register r,(select register_id,disposal_state from disposal_request group by register_id, disposal_state having disposal_state = '已缴费') c
+        where r.id = c.register_id
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+    </select>
+    <select id="getWaitDisposalMsg" resultType="java.util.Map">
+        select r.*
+        from register r ,(select register_id,disposal_state from disposal_request group by register_id, disposal_state having disposal_state = '已缴费') c
+        where r.id = c.register_id
+        and date(visit_date) = date(now())
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+        ORDER BY r.visit_date
+        LIMIT ${(nowPageNumber-1) * pageSize} ,#{pageSize}
+    </select>
+
+
 </mapper>
