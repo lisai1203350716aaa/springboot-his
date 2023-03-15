@@ -63,7 +63,6 @@
         select r.*
         from register r ,(select register_id,disposal_state from disposal_request group by register_id, disposal_state having disposal_state = '已缴费') c
         where r.id = c.register_id
-        and date(visit_date) = date(now())
         <if test="case_number != null and case_number != ''">
             and r.case_number = #{case_number}
         </if>

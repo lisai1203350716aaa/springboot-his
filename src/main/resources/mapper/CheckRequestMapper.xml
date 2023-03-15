@@ -59,7 +59,6 @@
         select r.*
         from register r ,(select register_id,check_state from check_request group by register_id, check_state having check_state = '已缴费') c
         where r.id = c.register_id
-        and date(visit_date) = date(now())
         <if test="case_number != null and case_number != ''">
             and r.case_number = #{case_number}
         </if>
