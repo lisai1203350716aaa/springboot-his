@@ -14,6 +14,7 @@
                 #{check_position},
                 #{check_remark}, now(), '已开立');
     </insert>
+
     <update id="updateStatesById">
         update check_request set check_state = '已缴费'
         where id = #{id}
@@ -69,5 +70,57 @@
         LIMIT ${(nowPageNumber-1) * pageSize} ,#{pageSize}
 </select>
 
+    <!--    检查结果录入：检查结果搜索-->
+    <select id="searchCheckedPatient" resultType="java.util.Map">
+        select r.*
+        from register r ,(select register_id,check_state from check_request group by register_id, check_state having check_state = '已出结果') c
+        where r.id = c.register_id
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+    </select>
+
+<!--结果录入,得到患者的检查项-->
+    <select id="selectionCheckInput" resultType="java.util.Map">
+        select c.*,m.tech_code,m.tech_name,m.tech_format,m.tech_price,m.price_type,m.tech_type
+        from check_request c,medical_technology m
+        where c.medical_technology_id = m.id
+        and check_state = '已出结果'
+        and register_id = #{id}
+    </select>
+
+<!--    完成检查患者数量-->
+    <select id="searchCheckedPatientCount" resultType="java.lang.Integer">
+        select count(id)
+        from register r,(select register_id,check_state from check_request group by register_id, check_state having check_state = '已出结果') c
+        where r.id = c.register_id
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+    </select>
+
+
+    <update id="updateCheckPatient">
+        update check_request
+        set check_employee_id = #{employee_id},
+            check_time = now(),
+            check_state = '已出结果'
+        where id = #{id}
+    </update>
+
+<!--    完成检查结果录入-->
+    <update id="updateCheckInput">
+        update check_request
+        set inputcheck_employee_id = #{inputcheck_employee_id},
+            check_result = #{check_result}
+            check_state = '诊断完毕'
+        where id = #{id}
+    </update>
 
 </mapper>

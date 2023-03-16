@@ -9,4 +9,5 @@ import java.util.Map;
 public interface CheckPatientMapper {
 
     List<Map<String, Object>> getCheckPatient(String register_id);
+
 }

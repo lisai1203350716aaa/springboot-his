@@ -23,4 +23,7 @@ public interface DisponsalRequestMapper {
                                                  String real_name,
                                                  Integer nowPageNumber,
                                                  Integer pageSize);
+
+
+    List<Map<String, Object>> getDisposalPatientDept();
 }

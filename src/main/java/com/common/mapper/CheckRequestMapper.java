@@ -28,4 +28,13 @@ public interface CheckRequestMapper {
 
     Integer getWaitCheckCount();
 
+    int updateCheckPatient(String id,String employee_id);
+
+    List<Map<String, Object>> searchCheckedPatient(String case_number,String real_name);
+
+    List<Map<String, Object>> selectionCheckInput(String id);
+
+    Integer searchCheckedPatientCount(String case_number,String real_name);
+
+    Integer updateCheckInput(String id, String check_result, String inputcheck_employee_id);
 }

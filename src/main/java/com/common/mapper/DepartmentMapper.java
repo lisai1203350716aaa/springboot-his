@@ -9,4 +9,6 @@ import java.util.Map;
 public interface DepartmentMapper {
     //得到所有科室
     List<Map<String,Object>> getAlldeptList();
+
+    List<Map<String, Object>> getCheckPatientDept();
 }

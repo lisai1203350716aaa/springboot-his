@@ -6,4 +6,8 @@
     <select id="getAlldeptList" resultType="java.util.Map">
         select * from department
     </select>
+    <select id="getCheckPatientDept" resultType="java.util.Map">
+        select * from department
+        where dept_type = '检查'
+    </select>
 </mapper>

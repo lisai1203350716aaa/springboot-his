@@ -74,4 +74,10 @@
     </select>
 
 
+    <select id="getDisposalPatientDept" resultType="java.util.Map">
+        select * from department
+        where dept_type = '检验'
+    </select>
+
+
 </mapper>

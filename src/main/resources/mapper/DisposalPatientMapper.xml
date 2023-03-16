@@ -2,12 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.common.mapper.DisposalPatientMapper">
+    <update id="updateDisposalPatient">
+        update disposal_request
+        set disposal_employee_id = #{employee_id},
+            disposal_time = now(),
+            disposal_state = '已出结果'
+        where id = #{id}
+    </update>
 
     <select id="getCheckPatient" resultType="java.util.Map">
-        select t.tech_code ,t.tech_name, t.tech_format,t.tech_price,t.tech_type,t.price_type
+        select r.id, t.tech_code ,t.tech_name, t.tech_format,t.tech_price,t.tech_type,t.price_type
         from disposal_request r, medical_technology t
         where r.medical_technology_id = t.id
           and r.disposal_state = '已缴费'
           and r.register_id = #{register_id}
+    </select>
+    <select id="getDisposalPatientEmp" resultType="java.util.Map">
+        select * from employee
+        where deptment_id = #{deptment_id}
     </select>
 </mapper>
