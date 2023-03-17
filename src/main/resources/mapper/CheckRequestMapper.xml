@@ -106,6 +106,24 @@
     </select>
 
 
+    <select id="getCheckPatientTableByregist" resultType="java.util.Map">
+        select r.*,t.*,e.*
+        from check_request r, medical_technology t,employee e
+        where r.medical_technology_id = t.id
+        and e.id = r.register_id
+        and r.register_id = #{register_id}
+        LIMIT ${(nowPageNumber-1) * pageSize} ,#{pageSize}
+    </select>
+
+    <select id="getCheckPatientTableByregistCount" resultType="java.lang.Integer">
+        select count(*)
+        from check_request r, medical_technology t,employee e
+        where r.medical_technology_id = t.id
+          and e.id = r.register_id
+          and r.register_id = #{register_id}
+    </select>
+
+
     <update id="updateCheckPatient">
         update check_request
         set check_employee_id = #{employee_id},
@@ -118,7 +136,7 @@
     <update id="updateCheckInput">
         update check_request
         set inputcheck_employee_id = #{inputcheck_employee_id},
-            check_result = #{check_result}
+            check_result = #{check_result},
             check_state = '诊断完毕'
         where id = #{id}
     </update>

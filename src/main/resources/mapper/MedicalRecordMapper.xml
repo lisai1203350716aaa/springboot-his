@@ -13,4 +13,12 @@
     <insert id="addMedicalRecordDisease">
         insert into medical_record_disease (medical_record_id,disease_id) values (#{medical_record_id},#{disease_id})
     </insert>
+
+<!--    医生诊疗:门诊确诊，确诊提交-->
+    <update id="updatepatientDiagnosis">
+        update medical_record
+        set diagnosis = #{diagnosis},
+            cure = #{cure}
+        where register_id = #{register_id}
+    </update>
 </mapper>

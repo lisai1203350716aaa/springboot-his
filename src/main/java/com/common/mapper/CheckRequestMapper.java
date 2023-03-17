@@ -37,4 +37,7 @@ public interface CheckRequestMapper {
     Integer searchCheckedPatientCount(String case_number,String real_name);
 
     Integer updateCheckInput(String id, String check_result, String inputcheck_employee_id);
+
+    List<Map<String, Object>> getCheckPatientTableByregist(String register_id,Integer nowPageNumber,Integer pageSize);
+    Integer getCheckPatientTableByregistCount(String register_id);
 }

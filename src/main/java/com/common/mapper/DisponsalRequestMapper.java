@@ -26,4 +26,14 @@ public interface DisponsalRequestMapper {
 
 
     List<Map<String, Object>> getDisposalPatientDept();
+
+    List<Map<String,Object>> searchDisposaledPatient(String case_number, String real_name);
+
+    List<Map<String, Object>> selectionDisposalInput(String id);
+
+    Integer updateDisposalInput(String id, String disposal_result, String inputdisposal_employee_id);
+
+    List<Map<String, Object>> getDisposalPatientTableByregist(String register_id, Integer nowPageNumber, Integer pageSize);
+
+    Integer getDisposalPatientTableByregistCount(String register_id);
 }

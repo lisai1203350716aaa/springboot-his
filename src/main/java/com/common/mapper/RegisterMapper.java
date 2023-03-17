@@ -24,4 +24,8 @@ public interface RegisterMapper {
                                                 @Param("pageSize") Integer pageSize);
 
     List<Map<String,Object>> searchRegister(Map<Object, Object> map);
+
+    List<Map<String, Object>> getPatient(String case_number, String real_name, Integer nowPageNumber, Integer pageSize);
+
+    Integer getPatientCount(String case_number, String real_name);
 }

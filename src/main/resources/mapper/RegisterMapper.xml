@@ -203,4 +203,38 @@
         </if>
     </select>
 
+<!--分页、搜索得到患者信息-->
+    <select id="getPatient" resultType="java.util.Map">
+        select * from register
+        where visit_state in (1,2,3)
+            and employee_id = 1
+        <if test="(case_number == null or case_number == '') and (real_name == null and real_name == '')">
+            and date(visit_date) = date(now())
+        </if>
+        <if test="case_number != null and case_number != ''">
+            and case_number = #{case_number}
+        </if>
+        <if test="real_name != null and real_name != ''">
+            and real_name = #{real_name}
+        </if>
+        order by visit_date
+        limit ${(nowPageNumber-1)*pageSize},#{pageSize}
+    </select>
+
+    <!--分页、搜索得到患者数量-->
+    <select id="getPatientCount" resultType="java.lang.Integer">
+        select count(*) from register
+        where visit_state in (1,2,3)
+        and employee_id = 1
+        <if test="(case_number == null or case_number == '') and (real_name == null and real_name == '')">
+            and date(visit_date) = date(now())
+        </if>
+        <if test="case_number != null and case_number != ''">
+            and case_number = #{case_number}
+        </if>
+        <if test="real_name != null and real_name != ''">
+            and real_name = #{real_name}
+        </if>
+    </select>
+
 </mapper>

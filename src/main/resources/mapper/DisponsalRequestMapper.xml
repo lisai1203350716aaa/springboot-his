@@ -16,12 +16,22 @@
 
     </insert>
     <update id="updateStatesById">
-        update disposal_request set disposal_state = '已缴费'
+        update disposal_request
+        set disposal_state = '已缴费'
+        where id = #{id}
+    </update>
+    <update id="updateDisposalInput">
+        update disposal_request
+        set inputdisposal_employee_id = #{inputdisposal_employee_id},
+            disposal_time             = now(),
+            disposal_result           = #{disposal_result},
+            disposal_state            = '诊断完毕'
         where id = #{id}
     </update>
 
     <select id="getDisponsalRequestByregisterId" resultType="java.util.Map">
-        select r.id id, t.tech_name item_name,t.tech_price item_price,'检验' item_type,t.tech_format item_format,r.creation_time item_create_time
+        select r.id id, t.tech_name item_name,t.tech_price item_price,'检验' item_type,t.tech_format
+        item_format,r.creation_time item_create_time
         from disposal_request r, medical_technology t
         where r.medical_technology_id = t.id
         <if test="check_state != null and check_state != ''">
@@ -36,7 +46,8 @@
     <!--    获得检验完成人数数量-->
     <select id="getFinishDisposalCount" resultType="java.lang.Integer">
         select count(id)
-        from register r,(select register_id,disposal_state from disposal_request group by register_id, disposal_state having disposal_state = '已缴费') c
+        from register r,(select register_id,disposal_state from disposal_request group by register_id, disposal_state
+        having disposal_state = '已缴费') c
         where r.id = c.register_id
         <if test="real_name != null and real_name != ''">
             and r.real_name = #{real_name}
@@ -47,10 +58,11 @@
         and visit_state = 3
     </select>
 
-<!--    获取等待人数量-->
+    <!--    获取等待人数量-->
     <select id="getWaitDisposalCount" resultType="java.lang.Integer">
         select count(id)
-        from register r,(select register_id,disposal_state from disposal_request group by register_id, disposal_state having disposal_state = '已缴费') c
+        from register r,(select register_id,disposal_state from disposal_request group by register_id, disposal_state
+        having disposal_state = '已缴费') c
         where r.id = c.register_id
         <if test="real_name != null and real_name != ''">
             and r.real_name = #{real_name}
@@ -61,7 +73,8 @@
     </select>
     <select id="getWaitDisposalMsg" resultType="java.util.Map">
         select r.*
-        from register r ,(select register_id,disposal_state from disposal_request group by register_id, disposal_state having disposal_state = '已缴费') c
+        from register r ,(select register_id,disposal_state from disposal_request group by register_id, disposal_state
+        having disposal_state = '已缴费') c
         where r.id = c.register_id
         <if test="case_number != null and case_number != ''">
             and r.case_number = #{case_number}
@@ -75,8 +88,49 @@
 
 
     <select id="getDisposalPatientDept" resultType="java.util.Map">
-        select * from department
+        select *
+        from department
         where dept_type = '检验'
+    </select>
+    <select id="searchDisposaledPatient" resultType="java.util.Map">
+        select r.*
+        from register r ,(select register_id,disposal_state from disposal_request group by register_id, disposal_state
+        having disposal_state = '已出结果') c
+        where r.id = c.register_id
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+    </select>
+    <select id="selectionDisposalInput" resultType="java.util.Map">
+        select m.*, d.disposal_time
+        from medical_technology m,
+             disposal_request d
+        where m.id = d.medical_technology_id
+          and d.disposal_state = '已出结果'
+          and d.register_id = #{id}
+    </select>
+
+    <!--    医生诊疗：检验结果，患者信息查询（通过患者ID）-->
+    <select id="getDisposalPatientTableByregist" resultType="java.util.Map">
+        select r.*, t.*, e.*
+        from disposal_request r,
+             medical_technology t,
+             employee e
+        where r.medical_technology_id = t.id
+          and e.id = r.register_id
+          and r.register_id = #{register_id} LIMIT ${(nowPageNumber-1) * pageSize}
+            , #{pageSize}
+    </select>
+    <!--    医生诊疗：检验结果，患者数量查询（通过患者ID）-->
+    <select id="getDisposalPatientTableByregistCount" resultType="java.lang.Integer">
+        select count(*)
+        from disposal_request r, medical_technology t,employee e
+        where r.medical_technology_id = t.id
+          and e.id = r.register_id
+          and r.register_id = #{register_id}
     </select>
 
 
