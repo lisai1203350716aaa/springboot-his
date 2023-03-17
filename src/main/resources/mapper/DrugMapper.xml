@@ -7,4 +7,18 @@
         select *
         from drug_info
     </select>
+
+<!--    查询药品信息-->
+    <select id="searchDrug" resultType="java.util.Map">
+        select *
+        from drug_info
+        where 1 = 1
+        <if test="drug_name != null and drug_name != ''">
+            and drug_name like concat('%',#{drug_name},'%')
+        </if>
+        <if test="drug_code != null and drug_code != ''">
+            and drug_code like concat('%',#{drug_code},'%')
+        </if>
+        limit 0,50
+    </select>
 </mapper>
