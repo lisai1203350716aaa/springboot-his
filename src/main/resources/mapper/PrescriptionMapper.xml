@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.mapper.PrescriptionMapper">
+
+    <insert id="addDrugMsgToPre">
+        insert into prescription (register_id, drug_id, drug_usage, drug_number, drug_state)
+        values (#{register_id}, #{drug_id}, #{drug_usage}, #{drug_number}, '已开立')
+    </insert>
+
+    <!--    发药-->
+    <update id="updateDrugState">
+        update prescription
+        set drug_state = '已发药'
+        where drug_id = #{id}
+    </update>
+
+    <select id="getDrugByregisterId" resultType="java.util.Map">
+        select d.drug_name item_name,d.drug_price item_price,d.drug_type item_type,d.drug_format
+        item_format,p.drug_number item_number,p.creation_time item_create_time
+        from drug_info d,prescription p,register r
+        where d.id = p.drug_id
+        and r.id = p.register_id
+        and p.drug_state = '已开立'
+        <if test="register_id != null and register_id != ''">
+            and p.register_id = #{register_id}
+        </if>
+    </select>
+
+    <!--    查询已经买要的患者信息-->
+    <select id="searchDrugByRegisterIdAndName" resultType="java.util.Map">
+        select r.* from register r,(select register_id,drug_state from prescription group by register_id, drug_state
+        having drug_state = '已缴费') p
+        where p.register_id = r.id
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+        ORDER BY r.visit_date
+        LIMIT ${(nowPageNumber-1) * pageSize} ,#{pageSize}
+    </select>
+
+    <!--    查询已经买要的患者数量-->
+    <select id="getDrugPatientCount" resultType="java.lang.Integer">
+        select count(id) from register r,(select register_id,drug_state from prescription group by register_id,
+        drug_state having drug_state = '已缴费') p
+        where p.register_id = r.id
+        <if test="real_name != null and real_name != ''">
+            and r.real_name = #{real_name}
+        </if>
+        <if test="case_number != null and case_number != ''">
+            and r.case_number = #{case_number}
+        </if>
+    </select>
+</mapper>

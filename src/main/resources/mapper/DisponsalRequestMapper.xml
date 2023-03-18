@@ -34,9 +34,7 @@
         item_format,r.creation_time item_create_time
         from disposal_request r, medical_technology t
         where r.medical_technology_id = t.id
-        <if test="check_state != null and check_state != ''">
-            and r.check_state = '已开立'
-        </if>
+        and r.disposal_state = '已开立'
         <if test="register_id != null and register_id != ''">
             and r.register_id = #{register_id}
         </if>

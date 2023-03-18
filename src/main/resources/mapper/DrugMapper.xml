@@ -21,4 +21,10 @@
         </if>
         limit 0,50
     </select>
+    <select id="getPricePatientDrugs" resultType="java.util.Map">
+        select * from drug_info d,prescription p
+        where d.id = p.drug_id
+        and p.drug_state = '已缴费'
+        and p.register_id = #{id}
+    </select>
 </mapper>

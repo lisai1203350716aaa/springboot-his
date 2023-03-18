@@ -12,4 +12,6 @@ public interface DrugMapper {
     List<Map<String,Object>> getDrug();
 
     List<Map<String,Object>> searchDrug(String drug_name, String drug_code);
+
+    List<Map<String, Object>> getPricePatientDrugs(String id);
 }
